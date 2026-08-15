@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  proxy:
+    build: .
+    restart: always
+    ports:
+      - "8085:8000"
+    volumes:
+      - ./:/data
+    environment:
+      - CONFIG_PATH=/data/config.json
