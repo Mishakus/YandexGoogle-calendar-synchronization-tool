@@ -4,14 +4,24 @@ DIR=$(dirname "$SCRIPT_PATH")
 CONFIG_FILE="$DIR/config.json"
 cd "$DIR" || { echo "Ошибка: не могу найти директорию проекта $DIR"; exit 1; }
 
-DOCKER_COMPOSE_CMD="docker compose"
-if ! command -v docker > /dev/null; then
+DOCKER_COMPOSE_CMD=""
+if docker compose version > /dev/null 2>&1; then
+    DOCKER_COMPOSE_CMD="docker compose"
+elif command -v docker-compose > /dev/null 2>&1; then
     DOCKER_COMPOSE_CMD="docker-compose"
 fi
 
 if [ ! -f "$CONFIG_FILE" ]; then echo "{}" > "$CONFIG_FILE"; fi
 
 install() {
+    if [[ -z "$DOCKER_COMPOSE_CMD" ]]; then
+        echo "ОШИБКА: Не найден Docker Compose!"
+        echo "Пожалуйста, установите docker-compose перед продолжением."
+        echo "Команда для установки:"
+        echo 'sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose'
+        exit 1
+    fi
+
     sudo ln -sf "$SCRIPT_PATH" /usr/local/bin/ya-gcal-sync
     sudo chmod +x "$SCRIPT_PATH"
     $DOCKER_COMPOSE_CMD up -d --build

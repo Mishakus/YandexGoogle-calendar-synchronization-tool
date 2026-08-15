@@ -22,7 +22,22 @@
 
 ## Установка и запуск (Linux / Ubuntu)
 
-Для установки вам потребуется сервер с установленным `docker` и `docker compose`.
+### Системные требования
+- **ОС:** Linux (Ubuntu/Debian)
+- **Установленные пакеты:** `git`, `docker`, `docker-compose` (или плагин `docker compose`)
+
+Если Docker и Docker Compose у вас не установлены, выполните следующие команды:
+```bash
+# Установка Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Установка Docker Compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+### Запуск проекта
 
 1. Клонируйте репозиторий на ваш сервер:
    ```bash
